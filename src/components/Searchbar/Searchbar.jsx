@@ -18,12 +18,13 @@ export const Searchbar = ({ onSubmit }) => {
   };*/
   const handleSubmit = e => {
     e.preventDefault();
+    console.log(e.currentTarget.elements.query.value)
     onSubmit(e.currentTarget.elements.query.value);
-      if(e.currentTarget.elements.query.value === "") {
-      Notiflix.Notify.failure('Please, enter your query.')
-      return
+    if (e.currentTarget.elements.query.value === '') {
+      Notiflix.Notify.failure('Please, enter your query.');
+
+      return;
     }
-    e.target.reset()
   };
 
   return (
