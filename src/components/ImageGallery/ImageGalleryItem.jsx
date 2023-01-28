@@ -1,8 +1,30 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from '../Modal/Modal';
 import { GalleryStyled, GalleryImage } from './ImageGalleryItem.styled';
 
+export function ImageGalleryItem ({ image }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsModalOpen(prevState => !prevState.isModalOpen)
+  }
+  return (
+  <>
+    <GalleryStyled onClick={handleToggleModal}>
+      <GalleryImage
+        className="ImageGalleryItem-image"
+        src={image.webformatURL}
+        alt="img"
+      />
+    </GalleryStyled>
+    {isModalOpen && (
+      <Modal onClose={handleToggleModal} largeImg={image.largeImageURL} />
+    )}
+  </>
+);
+    }
+/*
 export class ImageGalleryItem extends Component {
   state = {
     isModalOpen: false,
@@ -31,7 +53,7 @@ export class ImageGalleryItem extends Component {
       </>
     );
   }
-}
+}*/
 
 ImageGalleryItem.propTypes = {
   image: PropTypes.object,

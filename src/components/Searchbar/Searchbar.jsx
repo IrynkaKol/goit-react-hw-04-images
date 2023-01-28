@@ -10,21 +10,18 @@ import {
 } from './Searchbar.styled';
 
 export const Searchbar = ({ onSubmit }) => {
-  /* state = {
-    query: '',
-  };
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };*/
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(e.currentTarget.elements.query.value)
+    console.log(e.currentTarget.elements.query.value);
     onSubmit(e.currentTarget.elements.query.value);
     if (e.currentTarget.elements.query.value === '') {
-      Notiflix.Notify.failure('Please, enter your query.');
+      console.log(e.currentTarget.elements.query.value)
+      Notiflix.Notify.failure('Please, enter your query.') 
 
-      return;
-    }
+      return //resetForm();
+    } 
+      
+    
   };
 
   return (
