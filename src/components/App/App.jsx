@@ -45,8 +45,8 @@ export function App() {
     setPage(1);
   };
   const handleLoadMore = () => {
-    setIsLoading(prevState => prevState(true));
-    setPage(prevState => prevState.page + 1);
+    setIsLoading(true);
+    setPage(page + 1);
   };
   const renderButtonOrLoader = () => {
     return isLoading ? (
