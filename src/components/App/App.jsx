@@ -13,56 +13,43 @@ export function App() {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [totalImgs, setTotalImgs] = useState(0);
-const [error, setError] = useState(null)
+  //const [error, setError] = useState(null);
 
-  useEffect (() => {
-    if ((prevState => prevState.query !== query) || (prevState => prevState.page !== page)) {
+  useEffect(() => {
+    if (
+      (prevState => prevState.query !== query) ||
+      (prevState => prevState.page !== page)
+    ) {
       fetchImages(query, page)
         .then(resp => {
-          setImages(prevState => prevState.page === 1 ? [...resp.hits] : [...images, ...resp.hits])
-          setTotalImgs(resp.totalHits)
-          }
-)
+          setImages(prevState =>
+            prevState.images.page === 1 ? [...resp.hits] : [...images, ...resp.hits]
+          );
+          setTotalImgs(resp.totalHits);
+        })
         .catch(error => {
           console.log(error);
-          return setError(Notiflix.Notify.failure(
-            'Sorry, there are no images matching your search query. Please try again.'
-          ));
+          return Notiflix.Notify.failure(
+              'Sorry, there are no images matching your search query. Please try again.'
+            
+          );
         })
         .finally(() => {
           setIsLoading(false);
         });
-}
-  }, [query, page, images])
-    
-      
+    }
+  }, [query, page, images]);
 
-
-  /*async function fetchGalerryImages () {
-try {
-  const images = await fetchImages()
-  setImages(prevState => prevState.page === 1 ? [...images.hits] : [...images, ...images.hits])
-   
-  setTotalImgs(images.totalHits)
-} catch (error) {
-  setError(Notiflix.Notify.failure(
-    'Sorry, there are no images matching your search query. Please try again.'))
-} finally {
-  setIsLoading(false)
-}
-    } 
-    fetchGalerryImages();
-  }, [page, query])*/
-
+ 
 
   const handleSubmit = query => {
-    setQuery(query)
-    setIsLoading(true)
+    setQuery(query);
+    setIsLoading(true);
     setPage(1);
   };
   const handleLoadMore = () => {
-    setIsLoading(prevState => true);
-    setPage(prevState => prevState.page + 1)
+    setIsLoading(prevState => prevState(true));
+    setPage(prevState => prevState.page + 1);
   };
   const renderButtonOrLoader = () => {
     return isLoading ? (
