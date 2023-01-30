@@ -13,9 +13,9 @@ export function Modal({ largeImg, onClose }) {
     window.addEventListener('keydown', onCloseByEsc);
     return () => {
       window.removeEventListener('keydown', onCloseByEsc);
+      
     };
   }, [onClose]);
- 
 
   return createPortal(
     <Overlay onClick={onClose}>

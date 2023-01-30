@@ -41,8 +41,10 @@ export function App() {
 
   const handleSubmit = query => {
     setQuery(query);
+    setImages([]);
     setIsLoading(true);
     setPage(1);
+    
   };
   const handleLoadMore = () => {
     setIsLoading(true);
