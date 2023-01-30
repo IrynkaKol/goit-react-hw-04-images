@@ -16,31 +16,28 @@ export function App() {
   //const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (
-      (prevState => prevState.query !== query) ||
-      (prevState => prevState.page !== page)
-    ) {
+    if (query === '') {
+      return;
+    }
+    
       fetchImages(query, page)
         .then(resp => {
-                        setImages(prevState => 
-              prevState.page === 1 ? [...resp.hits] : [...prevState, ...resp.hits]
-           );
+          setImages(prevState =>
+            prevState.page === 1 ? [...resp.hits] : [...prevState, ...resp.hits]
+          );
           setTotalImgs(resp.totalHits);
         })
         .catch(error => {
           console.log(error);
           return Notiflix.Notify.failure(
-              'Sorry, there are no images matching your search query. Please try again.'
-            
+            'Sorry, there are no images matching your search query. Please try again.'
           );
         })
         .finally(() => {
           setIsLoading(false);
         });
-    }
+    
   }, [query, page]);
-
- 
 
   const handleSubmit = query => {
     setQuery(query);
