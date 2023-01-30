@@ -23,7 +23,7 @@ export function App() {
       fetchImages(query, page)
         .then(resp => {
           setImages(prevState =>
-            prevState.images.page === 1 ? [...resp.hits] : [...images, ...resp.hits]
+            prevState.page === 1 ? [...resp.hits] : [...images, ...resp.hits]
           );
           setTotalImgs(resp.totalHits);
         })
