@@ -3,9 +3,8 @@ import { createPortal } from 'react-dom';
 import { Overlay, ModalStyled } from './Modal.styled';
 const modalRef = document.querySelector('#modal-root');
 
-
-export function Modal ({ largeImg, onClose }) {
-  useEffect (() => {
+export function Modal({ largeImg, onClose }) {
+  useEffect(() => {
     const onCloseByEsc = e => {
       if (e.code === 'Escape') {
         onClose();
@@ -14,15 +13,15 @@ export function Modal ({ largeImg, onClose }) {
     window.addEventListener('keydown', onCloseByEsc);
     return () => {
       window.removeEventListener('keydown', onCloseByEsc);
-    }
-
-  }, [onClose])
-
- 
+    };
+  }, [onClose]);
+  const handleBack = () => {
+    
+  }
 
   return createPortal(
     <Overlay onClick={onClose}>
-      <ModalStyled >
+      <ModalStyled>
         <img src={largeImg} alt="big" />
       </ModalStyled>
     </Overlay>,
