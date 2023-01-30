@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { AppStyled } from './App.styled';
 import Notiflix from 'notiflix';
 import { Searchbar } from '../Searchbar/Searchbar';
@@ -7,7 +7,82 @@ import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Button } from '../Button/Button';
 import { Loader } from '../Loader/Loader';
 
+export function App() {
+  const [query, setQuery] = useState('');
+  const [images, setImages] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalImgs, setTotalImgs] = useState(0);
+const [error, setError] = useState(null)
 
+  useEffect (() => {
+    if ((prevState => prevState.query !== query) || (prevState => prevState.page !== page)) {
+      fetchImages(query, page)
+        .then(resp => {
+          setImages(prevState => prevState.page === 1 ? [...resp.hits] : [...images, ...resp.hits])
+          setTotalImgs(resp.totalHits)
+          }
+)
+        .catch(error => {
+          console.log(error);
+          return setError(Notiflix.Notify.failure(
+            'Sorry, there are no images matching your search query. Please try again.'
+          ));
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+}
+  }, [query, page, images])
+    
+      
+
+
+  /*async function fetchGalerryImages () {
+try {
+  const images = await fetchImages()
+  setImages(prevState => prevState.page === 1 ? [...images.hits] : [...images, ...images.hits])
+   
+  setTotalImgs(images.totalHits)
+} catch (error) {
+  setError(Notiflix.Notify.failure(
+    'Sorry, there are no images matching your search query. Please try again.'))
+} finally {
+  setIsLoading(false)
+}
+    } 
+    fetchGalerryImages();
+  }, [page, query])*/
+
+
+  const handleSubmit = query => {
+    setQuery(query)
+    setIsLoading(true)
+    setPage(1);
+  };
+  const handleLoadMore = () => {
+    setIsLoading(prevState => true);
+    setPage(prevState => prevState.page + 1)
+  };
+  const renderButtonOrLoader = () => {
+    return isLoading ? (
+      <Loader />
+    ) : (
+      images.length !== 0 && images.length < totalImgs && (
+        <Button onClick={handleLoadMore} />
+      )
+    );
+  };
+
+  return (
+    <AppStyled>
+      <Searchbar onSubmit={handleSubmit} />
+      <ImageGallery images={images} />
+      {renderButtonOrLoader()}
+    </AppStyled>
+  );
+}
+/*
 export class App extends Component {
   state = {
     query: '',
@@ -72,4 +147,4 @@ export class App extends Component {
       </AppStyled>
     );
   }
-}
+}*/
