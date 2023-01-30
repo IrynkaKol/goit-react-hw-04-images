@@ -6,10 +6,12 @@ const modalRef = document.querySelector('#modal-root');
 export function Modal({ largeImg, onClose }) {
   useEffect(() => {
     const onCloseByEsc = e => {
+
       if (e.code === 'Escape') {
         onClose();
       }
     };
+    
     window.addEventListener('keydown', onCloseByEsc);
     return () => {
       window.removeEventListener('keydown', onCloseByEsc);
