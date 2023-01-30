@@ -22,9 +22,9 @@ export function App() {
     ) {
       fetchImages(query, page)
         .then(resp => {
-          setImages(prevState =>
-            prevState.page === 1 ? [...resp.hits] : [...images, ...resp.hits]
-          );
+                        setImages(prevState => 
+              prevState.page === 1 ? [...resp.hits] : [...prevState, ...resp.hits]
+           );
           setTotalImgs(resp.totalHits);
         })
         .catch(error => {
@@ -38,7 +38,7 @@ export function App() {
           setIsLoading(false);
         });
     }
-  }, [query, page, images]);
+  }, [query, page]);
 
  
 
